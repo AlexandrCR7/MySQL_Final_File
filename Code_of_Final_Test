@@ -1,0 +1,51 @@
+-- Выведите только четные числа от 1 до 10 (Через цикл).
+-- Пример: 2,4,6,8,10
+
+DROP PROCEDURE IF EXISTS even_numbers;
+DELIMITER $$
+CREATE PROCEDURE even_numbers
+(
+	input_numbers INT -- наше N
+)
+
+BEGIN
+
+	DECLARE n INT;
+    DECLARE result VARCHAR(45) DEFAULT "";
+    SET n = input_numbers;
+    
+    REPEAT
+		SET result = CONCAT(result, n, " ");
+        SET n = n + 2;
+        UNTIL n > 10
+	END REPEAT;
+    SELECT result;
+END; 
+
+CALL even_numbers(2);
+
+
+-- Создайте процедуру ИЛИ функцию, которая принимает кол-во сек и формат их в кол-во дней, часов, минут и секунд.
+-- Пример: 123456 ->'1 days 10 hours 17 minutes 36 seconds '
+
+
+DROP PROCEDURE IF EXISTS even_seconds;
+DELIMITER $$
+CREATE PROCEDURE even_seconds
+(
+	input_seconds INT 
+)
+
+BEGIN
+
+	DECLARE n INT;
+    DECLARE result VARCHAR(45) DEFAULT "";
+    SET n = input_seconds;
+    
+   SET result = CONCAT(FLOOR(TIME_FORMAT(SEC_TO_TIME(n), '%H') / 24), 'days ',
+		MOD(TIME_FORMAT(SEC_TO_TIME(n), '%H'), 24), 'h:',
+		TIME_FORMAT(SEC_TO_TIME(n), '%im:%ss'));
+		SELECT result;
+END; 
+
+CALL even_seconds(1223342);
